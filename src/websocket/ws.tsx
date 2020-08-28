@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-const ENDPOINT = "http://localhost:8080/";
+const ENDPOINT = "http://ec2-18-222-28-243.us-east-2.compute.amazonaws.com:8080/";
 
 class Ws {
     socket: SocketIOClient.Socket;
