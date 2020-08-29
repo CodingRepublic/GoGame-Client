@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import Text from '../components/text';
 import { List } from 'antd';
+import { memo } from 'react';
 
 export type message = {
     from: string,
@@ -9,6 +10,7 @@ export type message = {
 }
 
 type props = {
+    oldMessage: message
     message: message
     me: boolean
 
@@ -31,9 +33,9 @@ const defaultStyle = (style: React.CSSProperties) => ({
     backgroundColor: style?.backgroundColor || "white",
     filter: style?.filter || "",
     wordWrap: "break-word",
-    display: "block",
+    display: "inline-block",
     overflowWrap: "break-word",
-    wordBreak: "break-all"
+    wordBreak: "break-word",
 }) as React.CSSProperties;
 
 const meMessage = (style: React.CSSProperties): React.CSSProperties => {
@@ -52,36 +54,38 @@ const otherMessage = (style: React.CSSProperties): React.CSSProperties => {
     return style
 }
 
-const Message: FunctionComponent<props> = ({ message, style = {} as React.CSSProperties, me }) => {
+const Message: FunctionComponent<props> = ({ oldMessage = { from: "" }, message, style = {} as React.CSSProperties, me }) => {
     style = me ? { ...style, ...meMessage(style) } : { ...style, ...otherMessage(style) }
 
-    console.log(message)
     const msgColor = me ? "white" : "black"
     const align = me ? "right" : "left"
-    const paddingLeft = me ? "200px" : "10px"
-    const paddingRight = me ? "10px" : "200px"
+    const paddingLeft = me ? "100px" : "10px"
+    const paddingRight = me ? "10px" : "100px"
     return (
         <div style={{ marginBottom: "5px", paddingRight: paddingRight, paddingLeft: paddingLeft }}>
             <div style={defaultStyle(style)}>
                 {!me ?
-                    <Text style={{ fontSize: "1.4em", fontWeight: 900, color: "blue", fontFamily: "Source Code Pro" }}>
+                    <Text style={{ fontSize: "1.2em", fontWeight: 900, color: "blue", fontFamily: "Source Code Pro" }}>
                         {message.from}
                     </Text>
                     :
                     null
                 }
 
-                <Text style={{ whiteSpace: "initial", fontSize: "1.2em", fontWeight: 500, color: msgColor, fontFamily: "Source Code Pro" }}>
+                <Text style={{ whiteSpace: "initial", fontSize: "1.1em", fontWeight: 500, color: msgColor, fontFamily: "Source Code Pro" }}>
                     {message.msg}
                 </Text>
             </div>
-            {/* <Text style={{ fontSize: "1em", width: "100%", fontWeight: 700, textAlign: align, color: "black", fontFamily: "Source Code Pro" }}>
-                {message.time}
-            </Text> */}
-
+            {oldMessage.from === message.from ?
+                null
+                :
+                <Text style={{ letterSpacing: "1px", fontSize: "1em", width: "100%", fontWeight: 900, textAlign: align, color: "black", fontFamily: "Source Code Pro", paddingRight: "10px", paddingLeft: "10px" }}>
+                    {message.time}
+                </Text>
+            }
         </div>
     )
 }
 
-export default Message;
+export default memo(Message);
 

@@ -2,24 +2,26 @@ import React, { FunctionComponent } from 'react'
 
 type props = {
     radius?: string
-    width?: string
+    minWidth?: string
     bgColor: string
     boxShadow: string
+    minHeight?: string
 };
 
-const styles = (radius: string, width: string, bgColor: string, boxShadow: string) => ({
+const styles = (radius: string, minWidth: string, bgColor: string, boxShadow: string, minHeight: string) => ({
     backgroundColor: "white",
     borderRadius: radius,
     display: "inline-block",
     background: bgColor,
     boxShadow: boxShadow,
     padding: "30px",
-    width: width,
+    width: minWidth,
+    height: minHeight
 });
 
-const Card: FunctionComponent<props> = ({ children, radius = "50px", width = "", bgColor, boxShadow }) => {
+const Card: FunctionComponent<props> = ({ children, radius = "50px", minWidth = "", minHeight = "", bgColor, boxShadow }) => {
     return (
-        <div style={styles(radius, width, bgColor, boxShadow)}>
+        <div style={styles(radius, minWidth, bgColor, boxShadow, minHeight)}>
             {children}
         </div>
     )

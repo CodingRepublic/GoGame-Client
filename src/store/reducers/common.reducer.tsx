@@ -1,13 +1,13 @@
-// import commonConstants from "../constants/common.constants";
-import { Action } from "../types/types"
 
-type commonState = {
+interface commonState {
+
 };
 
 const commonState = (
   state: commonState = {
+
   },
-  action: Action
+  action: any
 ): commonState => {
   switch (action.type) {
     default:

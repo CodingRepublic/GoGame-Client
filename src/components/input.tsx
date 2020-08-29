@@ -21,11 +21,11 @@ const styles = (height: number, width: number | undefined) => ({
     width: width,
     fontWeight: 500,
     letterSpacing: "0px",
-    fontSize: 25,
+    fontSize: "1.3em",
     height: height,
     border: "2px solid black",
     borderRadius: "15px",
-    padding: "5px 0px 5px 15px",
+    padding: "10px 15px 10px 15px",
     verticalAlign: "middle",
 }) as React.CSSProperties;
 

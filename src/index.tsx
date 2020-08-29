@@ -13,26 +13,24 @@ import {
 
 import './index.css'
 
-import Home from "./pages/home";
-import App from "./pages/app";
+import HomePage from "./pages/home";
+import RoomPage from "./pages/room";
 
 ReactDOM.render(
   <Provider store={store}>
-    <div className="index">
-      <Router>
-        <Switch>
+    <Router>
+      <Switch>
 
-          <Route path="/" exact>
-            <Home />
-          </Route>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
 
-          <Route path="/app" exact>
-            <App />
-          </Route>
+        <Route path="/:id" exact>
+          <RoomPage />
+        </Route>
 
-        </Switch>
-      </Router>
-    </div>
+      </Switch>
+    </Router>
   </Provider>,
   document.getElementById("root")
 );

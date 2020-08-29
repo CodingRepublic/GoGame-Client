@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react'
 
 type props = {
     icon?: any,
+    iconSize?: string,
     style?: React.CSSProperties
 };
 
@@ -16,14 +17,17 @@ const defaultStyle = (style: React.CSSProperties | undefined) => ({
     overflow: style?.overflow || undefined,
     whiteSpace: style?.whiteSpace || undefined,
     textOverflow: style?.textOverflow || undefined,
-    width: style?.width || undefined
+    width: style?.width || undefined,
+    paddingRight: style?.paddingRight || undefined,
+    paddingLeft: style?.paddingLeft || undefined,
 }) as React.CSSProperties;
 
-const Text: FunctionComponent<props> = ({ children, icon, style }) => {
+const Text: FunctionComponent<props> = ({ children, icon, iconSize, style }) => {
     return (
         <div style={defaultStyle(style)}>
             {children}
-            <span style={{ textShadow: "none", marginLeft: "10px" }}>{icon}</span>
+            {icon ? <span style={{ fontSize: iconSize, textShadow: "none", marginLeft: "10px" }}>{icon}</span> : null}
+
         </div>
     )
 }
