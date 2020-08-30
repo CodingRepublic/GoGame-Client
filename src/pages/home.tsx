@@ -11,6 +11,7 @@ import DashboardComponent from "../pageComponents/dashboard"
 import HeaderComponent from '../pageComponents/header';
 import AppComponent from '../pageComponents/app';
 import { Row, Col } from 'antd';
+import Text from '../components/text';
 
 const mapStateToProps = (state: IAppState): IAppState => {
   return {
@@ -36,18 +37,23 @@ class HomePage extends React.Component<ReturnType<typeof mapStateToProps> & Retu
       <div style={{ height: "100%", width: "100%", padding: "50px 100px 50px 100px" }}>
         <HeaderComponent />
 
-        <Row>
-          <Col span={16}>
-            {this.props.websocketState.user !== undefined ?
-              <AppComponent />
-              :
-              <AuthComponent />
-            }
-          </Col>
-          <Col span={7} offset={1}>
-            <DashboardComponent />
-          </Col>
-        </Row>
+        {
+          this.props.websocketState.ready ?
+            <Row>
+              <Col span={16}>
+                {this.props.websocketState.user !== undefined ?
+                  <AppComponent />
+                  :
+                  <AuthComponent />
+                }
+              </Col>
+              <Col span={7} offset={1}>
+                <DashboardComponent />
+              </Col>
+            </Row>
+            :
+            <Text style={{ fontSize: "1em" }}>Trying to connect to the server ...</Text>
+        }
       </div >
     )
   }

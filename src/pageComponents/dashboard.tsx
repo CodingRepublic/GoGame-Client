@@ -33,8 +33,8 @@ const DashboardComponent: FunctionComponent<props> = ({ children, commonState, w
       </Text>
 
       <Divider plain orientation="left">
-        <Text style={{ fontSize: "1.3em", fontFamily: "Source Code Pro" }}>
-          Users
+        <Text style={{ fontSize: "1.2em", fontFamily: "Source Code Pro" }}>
+          Online Users
         </Text>
       </Divider>
       <List
@@ -44,8 +44,8 @@ const DashboardComponent: FunctionComponent<props> = ({ children, commonState, w
         dataSource={websocketState.online_users}
         renderItem={(item: user, index: number) => (
           <>
-            <List.Item style={{ padding: "0px" }}>
-              {item.username}
+            <List.Item style={{ fontFamily: "Source Code Pro", padding: "0px" }}>
+              - {item.username}
             </List.Item>
             <div className="fix"></div>
           </>
@@ -54,8 +54,8 @@ const DashboardComponent: FunctionComponent<props> = ({ children, commonState, w
       </List>
 
       <Divider plain orientation="left">
-        <Text style={{ fontSize: "1.3em", fontFamily: "Source Code Pro" }}>
-          Rooms
+        <Text style={{ fontSize: "1.2em", fontFamily: "Source Code Pro" }}>
+          Available Rooms
         </Text>
       </Divider>
       <List
@@ -65,8 +65,8 @@ const DashboardComponent: FunctionComponent<props> = ({ children, commonState, w
         dataSource={websocketState.online_rooms}
         renderItem={(item: room, index: number) => (
           <>
-            <List.Item style={{ padding: "0px" }}>
-              {item.name}
+            <List.Item style={{ fontFamily: "Source Code Pro", padding: "0px" }}>
+              - {item.name}
             </List.Item>
             <div className="fix"></div>
           </>

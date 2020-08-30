@@ -14,7 +14,6 @@ import {
 import './index.css'
 
 import HomePage from "./pages/home";
-import RoomPage from "./pages/room";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -23,10 +22,6 @@ ReactDOM.render(
 
         <Route path="/" exact>
           <HomePage />
-        </Route>
-
-        <Route path="/:id" exact>
-          <RoomPage />
         </Route>
 
       </Switch>

@@ -102,9 +102,9 @@ const AuthComponent: FunctionComponent<props> = ({ children, login, register }) 
           <Text style={{ fontSize: "0.9em" }}>
             {
               state.isRegister ?
-                <>Already have an account ? <span className="link" onClick={() => setState({ ...state, isRegister: false })} style={{ color: "blue" }}>Login</span></>
+                <>Already have an account ? <span className="link" onClick={() => { setState({ ...state, isRegister: false, usernameField: "", passwordField: "" }) }} style={{ color: "blue" }}>Login</span></>
                 :
-                <>Don't have an account ? <span className="link" onClick={() => setState({ ...state, isRegister: true })} style={{ color: "blue" }}>Register</span></>
+                <>Don't have an account ? <span className="link" onClick={() => { setState({ ...state, isRegister: true, usernameField: "", passwordField: "" }) }} style={{ color: "blue" }}>Register</span></>
             }
           </Text>
         </Space >
