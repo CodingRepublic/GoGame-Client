@@ -1,97 +1,98 @@
-import React from 'react'
+import React, { useState, RefObject } from 'react'
 import Card from '../components/card';
-import 'antd/dist/antd.css';
 import Input from '../components/input';
-import Message, { message } from '../components/message';
+import Message from '../components/message';
 import { ArrowRightOutlined } from '@ant-design/icons'
 import { List } from 'antd';
+import { message } from '../store/types/types'
 
-export type user = {
-  username: string
-}
+import { Dispatch, AnyAction, bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { IAppState } from "../store/reducers";
+import { commonState } from "../store/reducers/common.reducer";
+import { websocketState } from '../store/reducers/websocket.reducer';
+import { websocketActions } from "../store/actions/websocket.actions";
 
-type state = {
-  message: string
-  messages: message[]
-  messagesEndRef: any
-};
+
+const mapStateToProps = (state: IAppState): IAppState => { return { ...state, }; };
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => bindActionCreators(
+  {
+    messageRoom: (roomName: string, msg: string) => websocketActions.MessageRoom(roomName, msg)
+  },
+  dispatch
+);
 
 type props = {
-  readonly user: user
+  commonState: commonState,
+  websocketState: websocketState,
+  messageRoom: (roomName: string, msg: string) => void
 };
 
-class ChatComponent extends React.Component<props, state> {
-  constructor(props: props) {
-    super(props)
-
-    this.state = {
-      message: "",
-      messages: [],
-      messagesEndRef: React.createRef()
-    }
-    // this.props.ws.addListener("JOIN_ROOM_RESPONSE", (data: any) => {
-    // })
-    // this.props.ws.addListener("MESSAGE_ROOM_RESPONSE", (data: any) => {
-    // })
-    // this.props.ws.joinRoom("demo")
-    // this.props.ws.addListener("MESSAGE_ROOM", (data: message) => {
-    //   this.setState({
-    //     messages: [...this.state.messages, data],
-    //   })
-    //   this.state.messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
-    // })
+const defaultState = (): {
+  messageField: string,
+  messagesEndRef: RefObject<any>,
+} => {
+  return {
+    messageField: "",
+    messagesEndRef: React.createRef()
   }
-
-
-  handlerMessage = (event: any) => {
-    this.setState({ message: event.target.value });
-    event.preventDefault();
-  }
-  handlerSubmit = (event: any) => {
-    // this.props.ws.sendToRoom("demo", this.state.message)
-    this.setState({
-      message: ""
-    })
-    event.preventDefault();
-  }
-
-  render() {
-    return (
-      <Card radius={"10px"} minWidth={"100%"} bgColor={"#ffe0ff"} boxShadow={"7px 7px 3px #bea6d6, -1px -1px 1px #E0C3FC"}>
-        <List
-          split={false}
-          style={{ height: "200px", overflow: "auto" }}
-          itemLayout="horizontal"
-          dataSource={this.state.messages}
-          renderItem={(item: message, index: number) => (
-            <>
-              <List.Item style={item.from === this.props.user.username ? { padding: "0px", float: "right" } : { padding: "0px", float: "left" }}>
-                <Message oldMessage={this.state.messages[index - 1]} message={item} me={item.from === this.props.user.username} />
-              </List.Item>
-              <div className="fix"></div>
-            </>
-          )}
-        >
-          <div ref={this.state.messagesEndRef} />
-        </List>
-
-        <Input value={this.state.message}
-          handlerSubmit={this.handlerSubmit}
-          onKeyDown={(event: any) => {
-            if (event.key === 'Enter') {
-              this.handlerSubmit(event)
-            }
-          }}
-          float={"right"}
-          onChange={this.handlerMessage}
-          height={40}
-          width={300}
-          placeholder="Write ..."
-          icon={<ArrowRightOutlined style={{ paddingRight: "10px", paddingLeft: "10px", fontSize: '2em', verticalAlign: "middle" }} />} />
-      </Card>
-    )
-  }
-
 }
 
-export default ChatComponent;
+const ChatComponent: React.FC<props> = ({ commonState, websocketState, messageRoom }) => {
+
+  const [state, setState] = useState(defaultState())
+
+  React.useEffect(() => {
+    state.messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+  }, [websocketState.messages]);
+
+  const handlerMessage = (event: any) => {
+    setState({ ...state, messageField: event.target.value });
+    event.preventDefault();
+  }
+
+  const handlerSubmit = (event: any) => {
+    if (websocketState.room !== undefined) {
+      messageRoom(websocketState.room.name, state.messageField)
+    }
+    setState({ ...state, messageField: "" })
+    event.preventDefault();
+  }
+
+  return (
+    <Card radius={"10px"} minWidth={"100%"} bgColor={"#ffe0ff"} boxShadow={"7px 7px 3px #bea6d6, -1px -1px 1px #E0C3FC"}>
+      <List
+        split={false}
+        style={{ height: "300px", overflow: "auto" }}
+        itemLayout="horizontal"
+        dataSource={websocketState.messages}
+        renderItem={(item: message, index: number) => (
+          <>
+            <List.Item style={item.from === websocketState.user?.username ? { padding: "0px", float: "right" } : { padding: "0px", float: "left" }}>
+              <Message oldMessage={websocketState.messages[index - 1]} message={item} me={item.from === websocketState.user?.username} />
+            </List.Item>
+            <div className="fix"></div>
+          </>
+        )}
+      >
+        <div ref={state.messagesEndRef} />
+      </List>
+
+      <Input value={state.messageField}
+        handlerSubmit={handlerSubmit}
+        onKeyDown={(event: any) => {
+          if (event.key === 'Enter') {
+            handlerSubmit(event)
+          }
+        }}
+        float={"right"}
+        onChange={handlerMessage}
+        height={40}
+        width={300}
+        placeholder="Write ..."
+        icon={<ArrowRightOutlined style={{ paddingRight: "10px", paddingLeft: "10px", fontSize: '2em', verticalAlign: "middle" }} />} />
+    </Card>
+  )
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatComponent);

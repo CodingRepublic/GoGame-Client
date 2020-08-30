@@ -17,6 +17,12 @@ class NotificationCenter {
       description: error,
     });
   }
+  notificationSuccess = (data: string) => {
+    notification["success"]({
+      message: "Success !",
+      description: data,
+    });
+  }
 }
 
 export default NotificationCenter;

@@ -7,7 +7,6 @@ import { IAppState } from "../store/reducers";
 import { commonState } from "../store/reducers/common.reducer";
 import { websocketState } from '../store/reducers/websocket.reducer';
 
-import 'antd/dist/antd.css';
 import { Row, Col } from 'antd';
 
 const mapStateToProps = (state: IAppState): IAppState => { return { ...state, }; };

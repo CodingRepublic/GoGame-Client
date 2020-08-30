@@ -101,3 +101,7 @@ body {
 .fix {
   display: block;
 }
+
+.link:hover  {
+  cursor: pointer;
+}

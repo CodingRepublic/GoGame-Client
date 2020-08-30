@@ -1,10 +1,10 @@
-export interface User {
+export interface user {
   username: string
 }
-export interface Room {
+export interface room {
   name: string
 }
-export interface Message {
+export interface message {
   from: string,
   msg: string,
   time: string,
@@ -18,13 +18,20 @@ export interface LoginRequest {
   username: string
   password: string
 }
+export interface RegisterRequest {
+  username: string
+  password: string
+}
 export interface CreateRoomRequest {
+  name: string
+}
+export interface LeaveRoomRequest {
   name: string
 }
 export interface JoinRoomRequest {
   name: string
 }
 export interface MessageRoomRequest {
-  roomName: string
+  room_name: string
   msg: string
 }

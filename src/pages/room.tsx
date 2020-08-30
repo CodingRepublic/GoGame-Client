@@ -7,7 +7,6 @@ import { commonState } from "../store/reducers/common.reducer";
 
 import AuthComponent from "../pageComponents/auth"
 import DashboardComponent from "../pageComponents/dashboard"
-import ChatComponent, { user } from "../pageComponents/chat"
 
 import NotificationCenter from "../global/notification"
 

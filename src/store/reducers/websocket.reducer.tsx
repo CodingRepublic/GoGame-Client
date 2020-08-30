@@ -1,4 +1,4 @@
-import { User, Room, Message } from "../types/types"
+import { user, room, message } from "../types/types"
 
 export const READY = "READY"
 export interface IREADY {
@@ -8,38 +8,44 @@ export interface IREADY {
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 export interface ILOGIN_SUCCESS {
   type: typeof LOGIN_SUCCESS
-  payload: User
+  payload: user
 }
 
 export const CREATE_ROOM_SUCCESS = "CREATE_ROOM_SUCCESS"
 export interface ICREATE_ROOM_SUCCESS {
   type: typeof CREATE_ROOM_SUCCESS
-  payload: Room
+  payload: room
 }
 
 export const JOIN_ROOM_SUCCESS = "JOIN_ROOM_SUCCESS"
 export interface IJOIN_ROOM_SUCCESS {
   type: typeof JOIN_ROOM_SUCCESS
-  payload: Room
+  payload: room
 }
 
-export const ROOM_MESSAGE = "ROOM_MESSAGE"
-export interface IROOM_MESSAGE {
-  type: typeof ROOM_MESSAGE
-  payload: Message
+export const LEAVE_ROOM_SUCCESS = "LEAVE_ROOM_SUCCESS"
+export interface ILEAVE_ROOM_SUCCESS {
+  type: typeof LEAVE_ROOM_SUCCESS
+}
+
+export const MESSAGE_ROOM = "MESSAGE_ROOM"
+export interface IMESSAGE_ROOM {
+  type: typeof MESSAGE_ROOM
+  payload: message
 }
 
 type Actions = IREADY
   | ILOGIN_SUCCESS
   | ICREATE_ROOM_SUCCESS
   | IJOIN_ROOM_SUCCESS
-  | IROOM_MESSAGE
+  | IMESSAGE_ROOM
+  | ILEAVE_ROOM_SUCCESS
 
 interface websocketState {
   ready: boolean
-  user: User | undefined;
-  room: Room | undefined;
-  messages: Message[]
+  user: user | undefined;
+  room: room | undefined;
+  messages: message[]
 };
 
 const websocketState = (
@@ -68,7 +74,12 @@ const websocketState = (
       return {
         ...state, room: action.payload
       }
-    case ROOM_MESSAGE:
+    case LEAVE_ROOM_SUCCESS:
+      return {
+        ...state, room: undefined, messages: []
+      }
+    case MESSAGE_ROOM:
+      console.log(action.payload)
       return {
         ...state, messages: [...state.messages, action.payload]
       }

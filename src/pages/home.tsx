@@ -7,9 +7,6 @@ import { websocketActions } from "../store/actions/websocket.actions";
 
 import AuthComponent from "../pageComponents/auth"
 import DashboardComponent from "../pageComponents/dashboard"
-import ChatComponent, { user } from "../pageComponents/chat"
-
-import NotificationCenter from "../global/notification"
 
 import HeaderComponent from '../pageComponents/header';
 import AppComponent from '../pageComponents/app';
