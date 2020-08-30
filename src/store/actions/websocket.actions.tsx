@@ -53,7 +53,7 @@ socket.on("connect", () => {
 
   store.dispatch({ type: READY });
 
-  socket.emit("LOGIN_REQUEST", { username: "player1", password: "player1" })
+  // socket.emit("LOGIN_REQUEST", { username: "player1", password: "player1" })
   // socket.emit("JOIN_ROOM_REQUEST", { name: "demo" })
 })
 
