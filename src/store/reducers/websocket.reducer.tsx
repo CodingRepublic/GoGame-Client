@@ -1,4 +1,4 @@
-import { user, room, message } from "../types/types"
+import { user, room, message, state } from "../types/types"
 
 export const READY = "READY"
 export interface IREADY {
@@ -9,6 +9,12 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 export interface ILOGIN_SUCCESS {
   type: typeof LOGIN_SUCCESS
   payload: user
+}
+
+export const UPDATE_STATE = "UPDATE_STATE"
+export interface IUPDATE_STATE {
+  type: typeof UPDATE_STATE
+  payload: state
 }
 
 export const CREATE_ROOM_SUCCESS = "CREATE_ROOM_SUCCESS"
@@ -40,12 +46,15 @@ type Actions = IREADY
   | IJOIN_ROOM_SUCCESS
   | IMESSAGE_ROOM
   | ILEAVE_ROOM_SUCCESS
+  | IUPDATE_STATE
 
 interface websocketState {
   ready: boolean
   user: user | undefined;
   room: room | undefined;
-  messages: message[]
+  messages: message[];
+  online_users: user[];
+  online_rooms: room[];
 };
 
 const websocketState = (
@@ -53,7 +62,9 @@ const websocketState = (
     ready: false,
     user: undefined,
     room: undefined,
-    messages: []
+    messages: [],
+    online_users: [],
+    online_rooms: []
   },
   action: Actions
 ): websocketState => {
@@ -61,6 +72,12 @@ const websocketState = (
     case READY:
       return {
         ...state, ready: true
+      }
+    case UPDATE_STATE:
+      return {
+        ...state,
+        online_rooms: action.payload.online_rooms || [],
+        online_users: action.payload.online_users || []
       }
     case LOGIN_SUCCESS:
       return {

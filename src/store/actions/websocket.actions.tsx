@@ -2,11 +2,11 @@ import io from 'socket.io-client';
 
 import { Dispatch } from "redux";
 import { store } from "../index"
-import { user, Error, message, room, RegisterRequest } from "../types/types"
+import { user, Error, message, room, RegisterRequest, state } from "../types/types"
 
 import { LoginRequest, CreateRoomRequest, LeaveRoomRequest, JoinRoomRequest, MessageRoomRequest } from "../types/types"
 
-import { LOGIN_SUCCESS, LEAVE_ROOM_SUCCESS, MESSAGE_ROOM, CREATE_ROOM_SUCCESS, JOIN_ROOM_SUCCESS, READY } from "../reducers/websocket.reducer";
+import { LOGIN_SUCCESS, LEAVE_ROOM_SUCCESS, MESSAGE_ROOM, CREATE_ROOM_SUCCESS, JOIN_ROOM_SUCCESS, READY, UPDATE_STATE } from "../reducers/websocket.reducer";
 import NotificationCenter from '../../global/notification';
 
 const ENDPOINT = "http://localhost:8080";
@@ -29,6 +29,10 @@ socket.on("connect", () => {
     store.dispatch({ type: LOGIN_SUCCESS, payload: user });
   })
 
+  socket.on(UPDATE_STATE, (state: state) => {
+    console.log(state)
+    store.dispatch({ type: UPDATE_STATE, payload: state });
+  })
 
   socket.on(CREATE_ROOM_SUCCESS, (room: room) => {
     store.dispatch({ type: CREATE_ROOM_SUCCESS, payload: room });
@@ -49,8 +53,8 @@ socket.on("connect", () => {
 
   store.dispatch({ type: READY });
 
-  socket.emit("LOGIN_REQUEST", { username: "player1", password: "player1" })
-  socket.emit("JOIN_ROOM_REQUEST", { name: "demo" })
+  // socket.emit("LOGIN_REQUEST", { username: "player1", password: "player1" })
+  // socket.emit("JOIN_ROOM_REQUEST", { name: "demo" })
 })
 
 

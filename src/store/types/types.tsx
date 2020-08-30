@@ -9,6 +9,10 @@ export interface message {
   msg: string,
   time: string,
 }
+export interface state {
+  online_users: user[],
+  online_rooms: room[]
+}
 
 // ERROR
 export type Error = string
