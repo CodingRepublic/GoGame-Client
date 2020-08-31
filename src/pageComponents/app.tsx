@@ -8,7 +8,6 @@ import { IAppState } from "../store/reducers";
 import Input from '../components/input';
 import Message from '../components/message';
 
-import 'antd/dist/antd.css';
 import { Row, Col } from 'antd';
 import ChatComponent from './chat';
 import { websocketState } from '../store/reducers/websocket.reducer';

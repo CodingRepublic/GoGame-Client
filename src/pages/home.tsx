@@ -36,7 +36,6 @@ class HomePage extends React.Component<ReturnType<typeof mapStateToProps> & Retu
     return (
       <div style={{ height: "100%", width: "100%", padding: "50px 100px 50px 100px" }}>
         <HeaderComponent />
-
         {
           this.props.websocketState.ready ?
             <Row>

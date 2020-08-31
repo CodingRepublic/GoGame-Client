@@ -23,7 +23,7 @@ type props = {
 
 const HeaderComponent: React.FC<props> = ({ commonState, websocketState }) => {
   return (
-    <Row>
+    <Row style={{ marginBottom: "20px" }}>
       <Col span={18}>
         <Text style={{ fontSize: "4em", fontWeight: 900, fontFamily: "Montserrat", textShadow: "-3px -3px 0px #ffe0ff" }} icon="✌️">
           Hello
