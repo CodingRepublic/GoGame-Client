@@ -9,7 +9,7 @@ import { LoginRequest, CreateRoomRequest, LeaveRoomRequest, JoinRoomRequest, Mes
 import { LOGIN_SUCCESS, LEAVE_ROOM_SUCCESS, MESSAGE_ROOM, CREATE_ROOM_SUCCESS, JOIN_ROOM_SUCCESS, READY, UPDATE_STATE } from "../reducers/websocket.reducer";
 import NotificationCenter from '../../global/notification';
 
-const ENDPOINT = "https://ec2-18-222-28-243.us-east-2.compute.amazonaws.com:8080";
+const ENDPOINT = "https://gogame.sshsupreme.xyz";
 
 const socket = io(ENDPOINT, {
   transports: ['websocket'],
